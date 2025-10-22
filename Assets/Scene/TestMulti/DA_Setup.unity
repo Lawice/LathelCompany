@@ -537,7 +537,7 @@ MonoBehaviour:
     PlayerPrefab: {fileID: 8323409067274859109, guid: a5fa0ebb9c6664f409416244fbf001c6, type: 3}
     Prefabs:
       NetworkPrefabsLists:
-      - {fileID: 11400000, guid: 2efa6b1ab1a0d6e47a890dda3f0dc028, type: 2}
+      - {fileID: 11400000, guid: b5de8bc82f67ca84d906b515c462b211, type: 2}
     TickRate: 30
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0
@@ -846,7 +846,7 @@ MonoBehaviour:
     m_MinAtlasSize: 64
     m_MaxAtlasSize: 4096
     m_MaxSubTextureSize: 64
-    m_ActiveFilters: 31
+    m_ActiveFilters: -1
   m_AtlasBlitShader: {fileID: 9101, guid: 0000000000000000f000000000000000, type: 0}
   m_DefaultShader: {fileID: 9100, guid: 0000000000000000f000000000000000, type: 0}
   m_SDFShader: {fileID: 19011, guid: 0000000000000000f000000000000000, type: 0}
