@@ -1,7 +1,7 @@
 using UnityEngine;
 using Unity.Netcode;
 
-public class PlayerNetwork : NetworkBehaviour {
+public class PlayerCharacter : NetworkBehaviour {
     [SerializeField] private Camera _playerCamera;
     
     public override void OnNetworkSpawn(){
@@ -16,8 +16,28 @@ public class PlayerNetwork : NetworkBehaviour {
                 _playerCamera.gameObject.SetActive(false);
             }
         }
+        
+        DontDestroyOnLoad(gameObject);
     }
     
+    private void Start(){
+        NetworkManager.SceneManager.OnSceneEvent += OnSwitchScene;
+    }
+
+    private void OnSwitchScene(SceneEvent sceneEvent){
+        if (sceneEvent.SceneEventType != SceneEventType.LoadComplete) return;
+        SetPosition(Vector3.zero);
+    }
+
+    private void SetPosition(Vector3 position){
+        foreach (NetworkClient client in NetworkManager.Singleton.ConnectedClientsList){
+            NetworkObject player = client.PlayerObject;
+            if (player != null){
+                player.transform.position = position;
+            }
+        }
+    }
+
     private void UsePlayerCamera(){
         Camera mainCam = Camera.main;
         if (mainCam != null && mainCam.gameObject != _playerCamera.gameObject){
