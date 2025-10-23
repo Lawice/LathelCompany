@@ -7,12 +7,16 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _playerSpeed;
     [SerializeField] private float _sprintSpeed;
     [SerializeField] private bool _isSprinting;
-    [SerializeField] private float _jumpforce;
+    [SerializeField] private float _jumpForce;
+    [SerializeField] private bool _isGrounded;
     
+    [SerializeField] private Vector3 _boxCastRange;
+    [SerializeField] private LayerMask _groundLayer;
     
     private Transform _transform;
     private Rigidbody _rigidbody;
     private PlayerInputsManager _playerInputsManager;
+    private Collider[] _groundColliders = new Collider[10];
     
     
     void Start()
@@ -23,12 +27,20 @@ public class PlayerMovement : MonoBehaviour
         
         _playerInputsManager.OnSprintEvent.Performed += OnSprint;
         _playerInputsManager.OnSprintEvent.Canceled += CancelSprint;
-        _playerInputsManager.OnSprintEvent.Performed += OnJump;
+        _playerInputsManager.OnJumpEvent.Performed += OnJump;
     }
 
     void Update()
     {
         OnMove(_playerInputsManager.MoveValue);
+        GroundCheck();
+    }
+
+    void GroundCheck()
+    {
+        int size = Physics.OverlapBoxNonAlloc(_transform.position, _boxCastRange, _groundColliders, Quaternion.identity, _groundLayer);
+        _isGrounded = size > 0;
+        
     }
 
     void OnMove(Vector2 value)
@@ -38,7 +50,8 @@ public class PlayerMovement : MonoBehaviour
 
     void OnJump()
     {
-        _rigidbody.AddForce(Vector3.up * _jumpforce);
+        if (_isGrounded)
+            _rigidbody.AddForce(Vector3.up * _jumpForce);
     }
 
     void OnSprint()
