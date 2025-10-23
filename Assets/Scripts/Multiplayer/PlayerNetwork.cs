@@ -5,9 +5,11 @@ public class PlayerNetwork : NetworkBehaviour {
     [SerializeField] private Camera _playerCamera;
     
     public override void OnNetworkSpawn(){
+        Debug.Log("Connected");
         base.OnNetworkSpawn();
         if (IsOwner){
             UsePlayerCamera();
+            Debug.Log("UseOwnerCamera");
         }
         else{
             if (_playerCamera != null){
@@ -21,8 +23,12 @@ public class PlayerNetwork : NetworkBehaviour {
         if (mainCam != null && mainCam.gameObject != _playerCamera.gameObject){
             mainCam.gameObject.SetActive(false);
         }
+        else{
+            Debug.Log("WHy");
+        }
 
         if (_playerCamera == null){
+            Debug.Log("PlayerCamera is null");
             return;
         }
         

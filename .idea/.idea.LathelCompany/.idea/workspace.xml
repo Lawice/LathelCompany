@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="104945be-fd0b-4360-b238-5466d94a5acc" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.LathelCompany/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.LathelCompany/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scene/MultiPlayer.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scene/MultiPlayer.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Others/Prefabs/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Others/Prefabs/Player.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/PlayerNetwork.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/PlayerNetwork.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,7 +131,7 @@
       <workItem from="1761141832749" duration="1695000" />
       <workItem from="1761144769556" duration="8000" />
       <workItem from="1761221070408" duration="780000" />
-      <workItem from="1761223574409" duration="822000" />
+      <workItem from="1761223574409" duration="1720000" />
     </task>
     <servers />
   </component>
