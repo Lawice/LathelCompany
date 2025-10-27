@@ -358,7 +358,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 1393724800
+  GlobalObjectIdHash: 4049267308
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -491,6 +491,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   _normalSpeed: 25
   _sprintSpeed: 50
+  _stamina: 0
+  _maxStamina: 100
+  _isUsingStamina: 0
   _isSprinting: 0
   _jumpForce: 1000
   _isGrounded: 0

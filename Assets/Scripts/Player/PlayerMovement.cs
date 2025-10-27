@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -7,6 +8,9 @@ public class PlayerMovement : MonoBehaviour
     [Header("Player Movement Stats")]
     [SerializeField] private float _normalSpeed;
     [SerializeField] private float _sprintSpeed;
+    [SerializeField] private float _stamina;
+    [SerializeField] private float _maxStamina;
+    [SerializeField] private bool _isUsingStamina;
     [SerializeField] private bool _isSprinting;
     [SerializeField] private float _jumpForce;
     [SerializeField] private bool _isGrounded;
@@ -34,9 +38,10 @@ public class PlayerMovement : MonoBehaviour
         _playerInputsManager.OnJumpEvent.Performed += OnJump;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         OnMove(_playerInputsManager.MoveValue);
+        ConsumingStamina();
         GroundCheck();
     }
     
@@ -44,9 +49,9 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(_transform.position, _boxCastRange);
     }
+    
     void GroundCheck()
     {
-
         int size = Physics.OverlapBoxNonAlloc(_transform.position, _boxCastRange, _groundColliders, Quaternion.identity, _groundLayer);
         _isGrounded = size > 0;
     }
@@ -73,11 +78,29 @@ public class PlayerMovement : MonoBehaviour
 
     void OnSprint()
     {
-        _isSprinting = true;
+        _isUsingStamina = true;
     }
 
     void CancelSprint()
     {
-        _isSprinting = false;
+        _isUsingStamina = false;
+    }
+
+    void ConsumingStamina()
+    {
+        if (_isUsingStamina && _stamina > 0)
+        {
+            _stamina -= 1;
+            _isSprinting = true;
+        }
+
+        else
+            _isSprinting = false;
+        
+        if (!_isUsingStamina && _stamina < _maxStamina)
+        {
+            _stamina += 1;
+            _isSprinting = false;
+        }
     }
 }
