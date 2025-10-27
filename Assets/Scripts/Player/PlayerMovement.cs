@@ -21,7 +21,10 @@ public class PlayerMovement : MonoBehaviour
     private Transform _transform;
     private Rigidbody _rigidbody;
     private PlayerInputsManager _playerInputsManager;
-    private Collider[] _groundColliders = new Collider[10];
+    
+    [Header("Collider")]
+    [SerializeField] private Vector3 _boxOffset = new Vector3(0, -0.5f, 0);
+    private Collider[] _groundColliders = new Collider[5];
 
     [SerializeField] private Transform _orientation;
     private Vector3 _moveDirection;
@@ -45,14 +48,10 @@ public class PlayerMovement : MonoBehaviour
         GroundCheck();
     }
     
-    void OnDrawGizmos(){
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(_transform.position, _boxCastRange);
-    }
-    
     void GroundCheck()
     {
-        int size = Physics.OverlapBoxNonAlloc(_transform.position, _boxCastRange, _groundColliders, Quaternion.identity, _groundLayer);
+        Vector3 boxCenter = _transform.position + _boxOffset;
+        int size = Physics.OverlapBoxNonAlloc(boxCenter, _boxCastRange, _groundColliders, Quaternion.identity, _groundLayer);
         _isGrounded = size > 0;
     }
 
