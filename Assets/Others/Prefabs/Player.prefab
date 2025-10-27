@@ -67,9 +67,10 @@ GameObject:
   - component: {fileID: 137538572244691421}
   - component: {fileID: 1785145450091824279}
   - component: {fileID: 7861120405492028132}
+  - component: {fileID: 8043675191017751975}
   m_Layer: 0
-  m_Name: Main Camera
-  m_TagString: MainCamera
+  m_Name: Camera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -96,7 +97,7 @@ Camera:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4688130004711202890}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
@@ -147,7 +148,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4688130004711202890}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!114 &7861120405492028132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -287,6 +288,22 @@ MonoBehaviour:
       enableFptlForForwardOpaque: 0
       enableBigTilePrepass: 0
       isFptlEnabled: 0
+--- !u!114 &8043675191017751975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4688130004711202890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34ceffdae100de64f929660a94057f84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCamera
+  _orientation: {fileID: 8895687978103490848}
+  _sensitivityX: 0.5
+  _sensitivityY: 0.5
+  _clampAngle: 75
 --- !u!1 &7120596718610725831
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,6 +314,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2672810515654910111}
   - component: {fileID: 4870308252093500219}
+  - component: {fileID: 332174797515468340}
   - component: {fileID: 5815829144966341785}
   - component: {fileID: 3189206732469704047}
   - component: {fileID: 4260624607151398288}
@@ -326,6 +344,7 @@ Transform:
   - {fileID: 3611007398089700567}
   - {fileID: 8180606149466148693}
   - {fileID: 7824925014435477563}
+  - {fileID: 8895687978103490848}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4870308252093500219
@@ -353,6 +372,20 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &332174797515468340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7120596718610725831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28f687969c8758c409b1dcf4bd1192dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerNetwork
+  ShowTopMostFoldoutHeaderGroup: 1
+  _playerCamera: {fileID: 137538572244691421}
 --- !u!114 &5815829144966341785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -395,7 +428,19 @@ MonoBehaviour:
     m_ActionId: 351f2ccd-1f9f-44bf-9bec-d62ac5c5f408
     m_ActionName: 'Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4260624607151398288}
+        m_TargetAssemblyTypeName: PlayerInputsManager, Assembly-CSharp
+        m_MethodName: OnLook
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 6b444451-8a00-4d00-a97e-f47457f736a8
     m_ActionName: 'Player/Look[/Mouse/delta]'
   - m_PersistentCalls:
@@ -444,7 +489,7 @@ MonoBehaviour:
     m_ActionName: 'Player/Sprint[/Keyboard/leftShift]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: 
+  m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &3189206732469704047
@@ -459,15 +504,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43c05ce61e948704c9b9992dd44de007, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  _playerSpeed: 0.5
-  _sprintSpeed: 1
+  _normalSpeed: 250
+  _sprintSpeed: 500
+  _stamina: 0
+  _maxStamina: 100
+  _isUsingStamina: 0
   _isSprinting: 0
   _jumpForce: 1000
   _isGrounded: 0
-  _boxCastRange: {x: 0, y: 0, z: 0}
+  _boxCastRange: {x: 1, y: 0.25, z: 1}
   _groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  _boxOffset: {x: 0, y: -0.9, z: 0}
+  _orientation: {fileID: 8895687978103490848}
 --- !u!114 &4260624607151398288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -481,6 +531,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInputsManager
   MoveValue: {x: 0, y: 0}
+  LookValue: {x: 0, y: 0}
 --- !u!114 &1785018333338159533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -552,7 +603,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 80
   m_CollisionDetection: 1
 --- !u!114 &2777999893102906860
 MonoBehaviour:
@@ -568,9 +619,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.Components.NetworkRigidbody
   ShowTopMostFoldoutHeaderGroup: 1
   NetworkRigidbodyBaseExpanded: 0
-  UseRigidBodyForMotion: 0
+  UseRigidBodyForMotion: 1
   AutoUpdateKinematicState: 1
   AutoSetKinematicOnDespawn: 1
+--- !u!1 &7521936007779696965
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8895687978103490848}
+  m_Layer: 0
+  m_Name: Orientation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8895687978103490848
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7521936007779696965}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2672810515654910111}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8206070008167184358
 GameObject:
   m_ObjectHideFlags: 0
