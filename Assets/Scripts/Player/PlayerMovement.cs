@@ -1,0 +1,112 @@
+using System;
+using UnityEngine;
+using UnityEngine.Serialization;
+
+public class PlayerMovement : MonoBehaviour
+{
+    [FormerlySerializedAs("_playerSpeed")]
+    [Header("Player Movement Stats")]
+    [SerializeField] private float _normalSpeed;
+    [SerializeField] private float _sprintSpeed;
+    [SerializeField] private float _stamina;
+    [SerializeField] private float _maxStamina;
+    [SerializeField] private bool _isUsingStamina;
+    [SerializeField] private bool _isSprinting;
+    [SerializeField] private float _jumpForce;
+    [SerializeField] private bool _isGrounded;
+    
+    [SerializeField] private Vector3 _boxCastRange;
+    [SerializeField] private LayerMask _groundLayer;
+    
+    private Transform _transform;
+    private Rigidbody _rigidbody;
+    private PlayerInputsManager _playerInputsManager;
+    
+    [Header("Collider")]
+    [SerializeField] private Vector3 _boxOffset = new Vector3(0, -0.5f, 0);
+    private Collider[] _groundColliders = new Collider[5];
+
+    [SerializeField] private Transform _orientation;
+    private Vector3 _moveDirection;
+    
+    
+    void Start()
+    {
+        _playerInputsManager = GetComponent<PlayerInputsManager>();
+        _transform = GetComponent<Transform>();
+        _rigidbody = GetComponent<Rigidbody>();
+        
+        _playerInputsManager.OnSprintEvent.Performed += OnSprint;
+        _playerInputsManager.OnSprintEvent.Canceled += CancelSprint;
+        _playerInputsManager.OnJumpEvent.Performed += OnJump;
+    }
+
+    void FixedUpdate()
+    {
+        OnMove(_playerInputsManager.MoveValue);
+        ConsumingStamina();
+        GroundCheck();
+    }
+    
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Vector3 boxCenter = _transform.position + _boxOffset;
+        Gizmos.DrawWireCube(boxCenter, _boxCastRange);
+    }
+
+    void GroundCheck()
+    {
+        Vector3 boxCenter = _transform.position + _boxOffset;
+        int size = Physics.OverlapBoxNonAlloc(boxCenter, _boxCastRange, _groundColliders, Quaternion.identity, _groundLayer);
+        _isGrounded = size > 0;
+    }
+
+    void OnMove(Vector2 value)
+    {
+        _moveDirection = _orientation.forward * value.y + _orientation.right * value.x;
+        if (!(_moveDirection.magnitude > 0.1f)){
+            return;
+        }
+        if (_isSprinting){
+            _rigidbody.AddForce(_moveDirection.normalized * _sprintSpeed, ForceMode.Force);
+        }
+        else{
+            _rigidbody.AddForce(_moveDirection.normalized * _normalSpeed, ForceMode.Force);
+        }
+    }
+
+    void OnJump()
+    {
+        if (_isGrounded)
+            _rigidbody.AddForce(Vector3.up * _jumpForce);
+    }
+
+    void OnSprint()
+    {
+        _isUsingStamina = true;
+    }
+
+    void CancelSprint()
+    {
+        _isUsingStamina = false;
+    }
+
+    void ConsumingStamina()
+    {
+        if (_isUsingStamina && _stamina > 0)
+        {
+            _stamina -= 1;
+            _isSprinting = true;
+        }
+
+        else
+            _isSprinting = false;
+        
+        if (!_isUsingStamina && _stamina < _maxStamina)
+        {
+            _stamina += 1;
+            _isSprinting = false;
+        }
+    }
+}
