@@ -48,6 +48,13 @@ public class PlayerMovement : MonoBehaviour
         GroundCheck();
     }
     
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Vector3 boxCenter = _transform.position + _boxOffset;
+        Gizmos.DrawWireCube(boxCenter, _boxCastRange);
+    }
+
     void GroundCheck()
     {
         Vector3 boxCenter = _transform.position + _boxOffset;
