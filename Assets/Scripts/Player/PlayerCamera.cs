@@ -1,9 +1,11 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerCamera : MonoBehaviour
 {
+    [FormerlySerializedAs("_playerBody")]
     [Header("References")]
-    [SerializeField] private Transform _playerBody;
+    [SerializeField] private Transform _orientation;
 
     [Header("Camera Settings")]
     [SerializeField] private float _sensitivityX;
@@ -40,6 +42,6 @@ public class PlayerCamera : MonoBehaviour
         
         transform.rotation = Quaternion.Euler(_yRotation, _xRotation, 0f);
         
-        _playerBody.rotation = Quaternion.Euler(0f, _xRotation, 0f);
+        _orientation.rotation = Quaternion.Euler(0f, _xRotation, 0f);
     }
 }
