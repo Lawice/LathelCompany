@@ -382,7 +382,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MapGenerator
   _roomPrefab: {fileID: 8622825174110817296, guid: 50642d94d9bf1b8419a748012773ae75, type: 3}
   _offset: 5.75
-  _maxRooms: 40
+  _maxRooms: 100
   _branchChance: 0.54
   _maxEntrancesPerRoom: 3
 --- !u!4 &684335293
