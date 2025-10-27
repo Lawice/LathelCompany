@@ -6,25 +6,50 @@ public class Room : MonoBehaviour{
     public List<GameObject> Walls; //0-Up, 1-Down, 2-Right, 3-Left
     public List<GameObject> Doors;
 
-    public List<EntranceState> EntranceStates;
 
-    private void Start(){
-        UpdateRoom(EntranceStates);
+    private void Update(){
+        UpdateRoom();
     }
 
-
-    private void UpdateRoom(List<EntranceState> states){
+    public List<EntranceState> EntranceStates = new List<EntranceState> 
+    { 
+        EntranceState.Locked, EntranceState.Locked, 
+        EntranceState.Locked, EntranceState.Locked 
+    };
+    
+    public void UpdateRoom(){
+        for (int u = 0; u < EntranceStates.Count; u++){
+            switch (EntranceStates[u]){
+                case EntranceState.Open:
+                    Doors[u].SetActive(true);
+                    Walls[u].SetActive(false);
+                    break;
+                /*case EntranceState.Closed:
+                    Doors[u].SetActive(true);
+                    Walls[u].SetActive(false);
+                    Debug.Log("Closed");
+                    break;*/
+                case EntranceState.Locked:
+                    Doors[u].SetActive(false);
+                    Walls[u].SetActive(true);
+                    break;
+            }
+            
+        }
+    }
+    
+    public void UpdateRoom(List<EntranceState> states){
         for (int u = 0; u < states.Count; u++){
             switch (states[u]){
                 case EntranceState.Open:
                     Doors[u].SetActive(true);
                     Walls[u].SetActive(false);
                     break;
-                case EntranceState.Closed:
+                 /*case EntranceState.Closed:
                     Doors[u].SetActive(true);
                     Walls[u].SetActive(false);
                     Debug.Log("Closed");
-                    break;
+                    break;*/
                 case EntranceState.Locked:
                     Doors[u].SetActive(false);
                     Walls[u].SetActive(true);
@@ -38,6 +63,6 @@ public class Room : MonoBehaviour{
 
 public enum EntranceState{
     Open,
-    Closed,
+    /*Closed,*/
     Locked
 }
